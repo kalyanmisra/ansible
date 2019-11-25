@@ -1,0 +1,30 @@
+# Installing python virtual environment for ansible 
+sudo apt-get update
+sudo apt-get install python-pip
+pip install virtualenv
+python -m virtualenv ansible
+pip install ansible
+source ansible/bin/activate
+
+# Ansible Commands:
+
+source ansible/bin/activate
+vim ansible/hosts
+ansible --private-key ~/latest_key.pem -m ping all
+ansible --private-key ~/latest_key.pem -m ping k8s-slaves
+ansible --private-key ~/latest_key.pem -m ping k8s-master
+chmod 400 latest_key.pem 
+ssh -i "latest_key.pem" ubuntu@ec2-13-234-66-136.ap-south-1.compute.amazonaws.com
+ansible --list-hosts all
+ansible --list-hosts k8s-slave[0]
+ansible --private-key ~/latest_key.pem -m command -a "hostname" all
+
+# Ansible Commands for playbooks:
+cd ansible/
+mkdir playbooks
+cd playbooks/
+vim hostname.yml
+cd ..
+ansible-playbook playbook/hostname.yml
+ansible-playbook --private-key=~/latest_key.pem playbooks/hostname.yml
+  
